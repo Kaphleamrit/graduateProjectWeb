@@ -3,19 +3,15 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const { SQSClient, SendMessageCommand } = require('@aws-sdk/client-sqs'); // Import SQSClient and SendMessageCommand from v3 SDK
 const app = express();
-const port = 3000;
+const port = 80;
 
-// Configure SQS Client
+// Configure SQS Client without hardcoded credentials (AWS SDK will automatically use IAM role attached to the EC2 instance)
 const sqsClient = new SQSClient({
-    region: 'us-west-2', // Replace with your preferred region
-    credentials: {
-        accessKeyId: 'YOUR_AWS_ACCESS_KEY_ID', // Replace with your access key ID
-        secretAccessKey: 'YOUR_AWS_SECRET_ACCESS_KEY' // Replace with your secret access key
-    }
+    region: 'us-east-2' // Replace with your preferred region
 });
 
-// Your FIFO queue URL
-const queueUrl = 'https://sqs.us-west-2.amazonaws.com/YOUR_ACCOUNT_ID/my-fifo-queue.fifo';
+// Your FIFO queue URL (should be dynamic, you can set this through environment variables or hardcode it)
+const queueUrl = process.env.SQS_QUEUE_URL || 'https://sqs.us-west-2.amazonaws.com/010928227680/my-fifo-queue.fifo'; 
 
 // Middleware to parse form data
 app.use(bodyParser.urlencoded({ extended: true }));
