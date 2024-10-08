@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const { SQSClient, SendMessageCommand } = require('@aws-sdk/client-sqs'); // Import SQSClient and SendMessageCommand from v3 SDK
 const app = express();
-const port = 80;
+const port = 3000;
 
 // Configure SQS Client without hardcoded credentials (AWS SDK will automatically use IAM role attached to the EC2 instance)
 const sqsClient = new SQSClient({
